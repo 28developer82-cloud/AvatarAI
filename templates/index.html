@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AvatarAI Assistant</title>
+<style>
+/* Base styles */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+body { 
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: #fff; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh; 
+    padding: 20px;
+}
+
+/* Animate background like portfolio */
+@keyframes gradientBG {
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* Container */
+#chat-container {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    max-width: 1200px;
+    height: 700px;
+    background-color: rgba(0,0,0,0.75);
+    border-radius: 20px;
+    box-shadow: 0 0 60px rgba(0,255,255,0.4);
+    overflow: hidden;
+}
+
+/* Left panel for logo and info */
+#left-panel {
+    width: 35%;
+    background: rgba(10,10,20,0.9);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#left-panel img {
+    width: 150px;
+    margin-bottom: 30px;
+}
+
+#left-panel h1 {
+    font-size: 28px;
+    color: #0ff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#left-panel p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #ccc;
+    text-align: center;
+}
+
+/* Glowing developer text */
+#footer-text {
+    font-size: 16px;
+    color: #0ff;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+    text-shadow:
+        0 0 5px #0ff,
+        0 0 10px #0ff,
+        0 0 20px #0ff,
+        0 0 40px #00ffff,
+        0 0 80px #00ffff;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    0% { text-shadow:
+        0 0 5px #0ff,
+        0 0 10px #0ff,
+        0 0 20px #0ff,
+        0 0 40px #00ffff,
+        0 0 80px #00ffff;}
+    100% { text-shadow:
+        0 0 10px #0ff,
+        0 0 20px #0ff,
+        0 0 30px #0ff,
+        0 0 60px #00ffff,
+        0 0 120px #00ffff;}
+}
+
+/* Right panel for chat */
+#right-panel {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+#messages {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message {
+    max-width: 70%;
+    padding: 12px 18px;
+    border-radius: 20px;
+    word-wrap: break-word;
+    line-height: 1.4;
+    box-shadow: 0 0 10px rgba(0,255,255,0.2);
+}
+
+.user {
+    background: #00ffff;
+    color: black;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.jarvis {
+    background: #ffaa00;
+    color: black;
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+/* Input area */
+#input-area {
+    display: flex;
+    margin-top: 15px;
+}
+
+#query {
+    flex: 1;
+    padding: 12px 15px;
+    border-radius: 25px;
+    border: 1px solid #0ff;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: 0.2s;
+}
+
+#query:focus {
+    border-color: #ffaa00;
+}
+
+#send-btn, #voice-btn {
+    margin-left: 10px;
+    padding: 12px 18px;
+    border-radius: 25px;
+    border: none;
+    background-color: #0ff;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#send-btn:hover, #voice-btn:hover {
+    background-color: #00cccc;
+}
+
+/* Scrollbar */
+#messages::-webkit-scrollbar { width: 8px; }
+#messages::-webkit-scrollbar-thumb { background-color: #0ff; border-radius: 4px; }
+#messages::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
+
+/* Responsive */
+@media screen and (max-width: 900px) {
+    #chat-container { flex-direction: column; height: 90vh; }
+    #left-panel, #right-panel { width: 100%; height: auto; padding: 20px; }
+    #left-panel img { width: 120px; margin-bottom: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="chat-container">
+    <!-- Left Panel -->
+    <div id="left-panel">
+        <h1>AvatarAI Assistant</h1>
+        <p>
+            Say commands like <strong>Open Youtube</strong>, <strong>Open Instagram</strong>, etc.<br>
+            Ask him to write an application for <strong>sick leave</strong>, etc.<br>
+            These are all examples that this AI can do. Enjoy it well!
+        </p>
+        <div id="footer-text">Developed By 𝙴𝚗𝚍𝚎𝚛𝙸𝚝𝚊𝚌𝚑𝚒</div>
+    </div>
+
+    <!-- Right Panel -->
+    <div id="right-panel">
+        <div id="messages"></div>
+        <div id="input-area">
+            <input type="text" id="query" placeholder="Type your message..." autofocus>
+            <button id="voice-btn" onclick="startVoice()">🎤</button>
+            <button id="send-btn" onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const apiUrl = "http://127.0.0.1:5000/chat";
+
+// Append messages
+function appendMessage(text, cls) {
+    const messagesDiv = document.getElementById("messages");
+    const msgDiv = document.createElement("div");
+    msgDiv.className = `message ${cls}`;
+    msgDiv.innerText = text;
+    messagesDiv.appendChild(msgDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+// Speak AI
+function speak(text) {
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = "en-US";
+    utter.rate = 1;
+    utter.pitch = 1;
+    speechSynthesis.speak(utter);
+}
+
+// Send message
+async function sendMessage(msgText=null) {
+    const input = document.getElementById("query");
+    const msg = msgText || input.value;
+    if(!msg) return;
+
+    appendMessage("You: " + msg, "user");
+    input.value = "";
+
+    try {
+        const res = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query: msg })
+        });
+        const data = await res.json();
+        appendMessage("Jarvis: " + data.reply, "jarvis");
+        speak(data.reply);
+
+        const urls = data.reply.match(/(https?:\/\/[^\s]+)/g);
+        if(urls) urls.forEach(url => window.open(url, "_blank"));
+    } catch(err) {
+        appendMessage("Jarvis: Error connecting to server", "jarvis");
+    }
+}
+
+// Voice recognition
+function startVoice() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SpeechRecognition) { alert("Voice recognition not supported."); return; }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.start();
+
+    recognition.onresult = (event) => {
+        const speechText = event.results[0][0].transcript;
+        sendMessage(speechText);
+    };
+
+    recognition.onerror = () => {
+        appendMessage("Jarvis: Voice recognition error", "jarvis");
+    };
+}
+
+// Press Enter to send
+document.getElementById("query").addEventListener("keydown", (e) => {
+    if(e.key === "Enter") sendMessage();
+});
+</script>
+
+</body>
+</html>
