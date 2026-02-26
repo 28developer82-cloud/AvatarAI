@@ -1,0 +1,58 @@
+[
+    {
+        "role": "user",
+        "content": "Hello"
+    },
+    {
+        "role": "assistant",
+        "content": "Hello! How can I help you today?"
+    },
+    {
+        "role": "user",
+        "content": "Hello"
+    },
+    {
+        "role": "assistant",
+        "content": "Hi there! How can I assist you?"
+    },
+    {
+        "role": "user",
+        "content": "open YouTube"
+    },
+    {
+        "role": "assistant",
+        "content": "Here\u2019s the link to YouTube: https://www.youtube.com"
+    },
+    {
+        "role": "user",
+        "content": "hello"
+    },
+    {
+        "role": "assistant",
+        "content": "Hello! How can I assist you today?"
+    },
+    {
+        "role": "user",
+        "content": "hello"
+    },
+    {
+        "role": "assistant",
+        "content": "Hi! How can I help you?"
+    },
+    {
+        "role": "user",
+        "content": "open Instagram"
+    },
+    {
+        "role": "assistant",
+        "content": "Here\u2019s the link to Instagram: https://www.instagram.com"
+    },
+    {
+        "role": "user",
+        "content": "open discord"
+    },
+    {
+        "role": "assistant",
+        "content": "Here\u2019s the link to Discord: https://discord.com"
+    }
+]
