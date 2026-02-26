@@ -19,5 +19,6 @@ def chat():
     reply = ChatBot(user_query)
     return jsonify({"reply": reply})
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# IMPORTANT FOR VERCEL
+app = app
+
